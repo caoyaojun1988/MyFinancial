@@ -1,5 +1,6 @@
 package com.cao;
 
+import com.cao.util.ExcelUtil;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -29,7 +30,13 @@ public class AppTest
      * Rigourous Test :-)
      */
     public void testApp() {
-        System.out.println(239229851/100.d);
+        Double a = 2392298.51;
+        Long l = ((Double) (a * 100)).longValue();
+        ;
+
+        System.out.println(a );
+        System.out.println(a * 100);
+        System.out.println(l / 100.d);
         assertTrue(true);
     }
 }

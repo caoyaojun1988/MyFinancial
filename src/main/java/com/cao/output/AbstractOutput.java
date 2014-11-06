@@ -43,14 +43,14 @@ public abstract class AbstractOutput {
         }
     }
 
-    protected Double processValue(Long value) {
+    protected Double processValue(Double value) {
         NumberFormat numberFormat = NumberFormat.getNumberInstance();
         numberFormat.setMaximumFractionDigits(2);
         numberFormat.setMinimumFractionDigits(2);
         if (value == null || value == 0) {
             return 0D;
         } else {
-            return value / 100.00D;
+            return value  ;
             // return numberFormat.format(value / 100.00D);
         }
     }

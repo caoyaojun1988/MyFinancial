@@ -1,6 +1,8 @@
 package com.cao.output;
 
-import com.cao.domain.CurrentMonthDetail;
+import com.cao.domain.AccountItem;
+import com.cao.domain.ProjectItem;
+import com.cao.domain.ProjectItem;
 import com.cao.main.UI;
 import com.cao.util.ExcelUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -17,8 +19,7 @@ import java.util.Map;
  */
 public class ZhiChuJinDuOutput extends AbstractOutput {
 
-    private static final String exclued = "减：";
-    private Map<String, CurrentMonthDetail> values;
+    private Map<String, Double> values;
 
     public ZhiChuJinDuOutput() {
         super();
@@ -50,20 +51,14 @@ public class ZhiChuJinDuOutput extends AbstractOutput {
                     }
 
                     try {
-                        HSSFCell cell1 = row.getCell(1);
+                        HSSFCell cell1 = row.getCell(3);
                         String cell1Value = ExcelUtil.getString(cell1);
-                        if (StringUtils.isNotBlank(cell1Value)) {
-
-                            HSSFCell cell2 = row.getCell(2);
-                            setCellValue(cell1Value, cell2);
-
-                            HSSFCell cell3 = row.getCell(3);
-                            setCellValue(cell1Value, cell3);
-
+                        if (StringUtils.isNotBlank(cell1Value) && values.get(cell1Value) != null) {
                             HSSFCell cell4 = row.getCell(4);
-                            setCellValue(cell1Value, cell4);
-                            HSSFCell cell5 = row.getCell(5);
-                            setCellValue(cell1Value, cell5);
+                            if (cell4 == null) {
+                                cell4 = row.createCell(4);
+                            }
+                            cell4.setCellValue(values.get(cell1Value));
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -71,42 +66,15 @@ public class ZhiChuJinDuOutput extends AbstractOutput {
                     }
                 }
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
-            UI.showException("明细表ERROR=" + e.getMessage() + "");
+            UI.showException("总体进度ERROR=" + e.getMessage() + "");
         }
         return workbook;
     }
 
-    protected void setCellValue(String cell0Value, HSSFCell cell1) {
-        if (cell1 != null) {
-            String mapper = ExcelUtil.getString(cell1);
-            if (StringUtils.isNotBlank(mapper) && NumberUtils.isNumber(mapper)) {
-                int index = Double.valueOf(mapper).intValue();
 
-                String replaceAll = cell0Value.replaceAll("\\(?\\（?\\d*\\)?\\）?", "");
-                String replace = StringUtils.replace(replaceAll, "、", "");
-                String value = StringUtils.replace(replace, " ", "");
-
-                CurrentMonthDetail currentMonthDetail = getValues().get(value);
-                if (currentMonthDetail != null && currentMonthDetail.getValueById(index) != null && currentMonthDetail.getValueById(index) != 0) {
-                    cell1.setCellValue(processValue(currentMonthDetail.getValueById(index)));
-                    return;
-                }
-                cell1.setCellValue("");
-            }
-        }
-    }
-
-
-    public Map<String, CurrentMonthDetail> getValues() {
-        return values;
-    }
-
-    public void setValues(Map<String, CurrentMonthDetail> values) {
+    public void setValues(Map<String, Double> values) {
         this.values = values;
     }
-
 }

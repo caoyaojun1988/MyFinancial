@@ -19,6 +19,7 @@ import java.util.List;
  */
 public class TotalAcountInput {
 
+    public static final String other = "其他";
     private String            desurl;
     private String            orgurl;
     private List<AccountItem> result;
@@ -79,6 +80,9 @@ public class TotalAcountInput {
                 try {
                     HSSFCell cell1 = row.getCell(1);
                     String name = (ExcelUtil.getString(cell1));
+                    if (other.equals(name.trim())) {
+                        name = accountItem.getId() + name;
+                    }
                     accountItem.setName(name);
                 } catch (Exception e) {
                     throw new IllegalArgumentException("ROW=" + rowIndex + ",culomn=" + 2 + ",value=" + row.getCell(1) + ",ERROR=" + e.getMessage());
@@ -87,7 +91,7 @@ public class TotalAcountInput {
                 try {
                     HSSFCell cell2 = row.getCell(2);
                     if (cell2 != null) {
-                        Long startBorrow = ((Double) (ExcelUtil.getDouble((cell2)) * 100)).longValue();
+                        Double startBorrow = ExcelUtil.getDouble((cell2));
                         accountItem.setStartBorrow(startBorrow);
                     }
                 } catch (Exception e) {
@@ -97,7 +101,7 @@ public class TotalAcountInput {
                 try {
                     HSSFCell cell3 = row.getCell(3);
                     if (cell3 != null) {
-                        Long startBorrow = ((Double) (ExcelUtil.getDouble((cell3)) * 100)).longValue();
+                        Double startBorrow = ExcelUtil.getDouble((cell3));
                         accountItem.setStartLend(startBorrow);
                     }
                 } catch (Exception e) {
@@ -107,7 +111,7 @@ public class TotalAcountInput {
                 try {
                     HSSFCell cell4 = row.getCell(4);
                     if (cell4 != null) {
-                        Long thisBorrow = ((Double) (ExcelUtil.getDouble((cell4)) * 100)).longValue();
+                        Double thisBorrow = ExcelUtil.getDouble((cell4));
                         accountItem.setThisBorrow(thisBorrow);
                     }
                 } catch (Exception e) {
@@ -117,7 +121,7 @@ public class TotalAcountInput {
                 try {
                     HSSFCell cell5 = row.getCell(5);
                     if (cell5 != null) {
-                        Long thisLend = ((Double) (ExcelUtil.getDouble((cell5)) * 100)).longValue();
+                        Double thisLend = ExcelUtil.getDouble((cell5));
                         accountItem.setThisLend(thisLend);
                     }
                 } catch (Exception e) {
@@ -127,7 +131,7 @@ public class TotalAcountInput {
                 try {
                     HSSFCell cell6 = row.getCell(6);
                     if (cell6 != null) {
-                        Long totalBorrow = ((Double) (ExcelUtil.getDouble((cell6)) * 100)).longValue();
+                        Double totalBorrow = ExcelUtil.getDouble((cell6));
                         accountItem.setTotalBorrow(totalBorrow);
                     }
                 } catch (Exception e) {
@@ -137,7 +141,7 @@ public class TotalAcountInput {
                 try {
                     HSSFCell cell7 = row.getCell(7);
                     if (cell7 != null) {
-                        Long totalLend = ((Double) (ExcelUtil.getDouble((cell7)) * 100)).longValue();
+                        Double totalLend = ExcelUtil.getDouble((cell7));
                         accountItem.setTotalLend(totalLend);
                     }
                 } catch (Exception e) {
@@ -147,7 +151,7 @@ public class TotalAcountInput {
                 try {
                     HSSFCell cell8 = row.getCell(8);
                     if (cell8 != null) {
-                        Long endBorrow = ((Double) (ExcelUtil.getDouble((cell8)) * 100)).longValue();
+                        Double endBorrow = ExcelUtil.getDouble((cell8));
                         accountItem.setEndBorrow(endBorrow);
                     }
                 } catch (Exception e) {
@@ -157,7 +161,7 @@ public class TotalAcountInput {
                 try {
                     HSSFCell cell9 = row.getCell(9);
                     if (cell9 != null) {
-                        Long endLend = ((Double) (ExcelUtil.getDouble((cell9)) * 100)).longValue();
+                        Double endLend = ExcelUtil.getDouble((cell9));
                         accountItem.setEndLend(endLend);
                     }
                 } catch (Exception e) {

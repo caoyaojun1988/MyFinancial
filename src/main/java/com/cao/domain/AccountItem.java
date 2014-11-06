@@ -6,14 +6,14 @@ package com.cao.domain;
 public class AccountItem {
     private Long   id;
     private String name;
-    private Long   startBorrow;
-    private Long   startLend;
-    private Long   thisBorrow;
-    private Long   thisLend;
-    private Long   totalBorrow;
-    private Long   totalLend;
-    private Long   endBorrow;
-    private Long   endLend;
+    private Double startBorrow;
+    private Double startLend;
+    private Double thisBorrow;
+    private Double thisLend;
+    private Double totalBorrow;
+    private Double totalLend;
+    private Double endBorrow;
+    private Double endLend;
 
 
     public Long getId() {
@@ -32,71 +32,71 @@ public class AccountItem {
         this.name = name;
     }
 
-    public Long getStartBorrow() {
+    public Double getStartBorrow() {
         return startBorrow;
     }
 
-    public void setStartBorrow(Long startBorrow) {
+    public void setStartBorrow(Double startBorrow) {
         this.startBorrow = startBorrow;
     }
 
-    public Long getStartLend() {
+    public Double getStartLend() {
         return startLend;
     }
 
-    public void setStartLend(Long startLend) {
+    public void setStartLend(Double startLend) {
         this.startLend = startLend;
     }
 
-    public Long getThisBorrow() {
+    public Double getThisBorrow() {
         return thisBorrow;
     }
 
-    public void setThisBorrow(Long thisBorrow) {
+    public void setThisBorrow(Double thisBorrow) {
         this.thisBorrow = thisBorrow;
     }
 
-    public Long getThisLend() {
+    public Double getThisLend() {
         return thisLend;
     }
 
-    public void setThisLend(Long thisLend) {
+    public void setThisLend(Double thisLend) {
         this.thisLend = thisLend;
     }
 
-    public Long getTotalBorrow() {
+    public Double getTotalBorrow() {
         return totalBorrow;
     }
 
-    public void setTotalBorrow(Long totalBorrow) {
+    public void setTotalBorrow(Double totalBorrow) {
         this.totalBorrow = totalBorrow;
     }
 
-    public Long getTotalLend() {
+    public Double getTotalLend() {
         return totalLend;
     }
 
-    public void setTotalLend(Long totalLend) {
+    public void setTotalLend(Double totalLend) {
         this.totalLend = totalLend;
     }
 
-    public Long getEndBorrow() {
+    public Double getEndBorrow() {
         return endBorrow;
     }
 
-    public void setEndBorrow(Long endBorrow) {
+    public void setEndBorrow(Double endBorrow) {
         this.endBorrow = endBorrow;
     }
 
-    public Long getEndLend() {
+    public Double getEndLend() {
         return endLend;
     }
 
-    public void setEndLend(Long endLend) {
+    public void setEndLend(Double endLend) {
         this.endLend = endLend;
     }
 
-    public Long getValueById(int index) {
+    public Double getValueById(int index) {
         switch (index) {
             case 1:
                 return this.getStartBorrow();
@@ -115,7 +115,7 @@ public class AccountItem {
             case 8:
                 return this.getEndLend();
             default:
-                return 0L;
+                return 0D;
         }
     }
 }

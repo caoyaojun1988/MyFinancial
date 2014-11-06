@@ -30,6 +30,8 @@ public class UI {
     private        JPanel jpurlOrgForTotalAccount   = null;
     private        JPanel jpurlOrgForCurrentAccount = null;
     private        JPanel jpurlOrgForCurrentDetail  = null;
+    private        JPanel jpurlOrgForProject        = null;
+    private        JPanel jpurlOrgForProjectItem    = null;
     private        JPanel jpurlDesc                 = null;
 
     private JPanel       jpcrotor                         = null;
@@ -38,6 +40,8 @@ public class UI {
     private JLabel       jlFileOrgForTotalAccount         = null; // 历史总账表
     private JLabel       jlFileOrgForTotalCurrentAccount  = null; //当月总账表
     private JLabel       jlFileOrgForTotalCurrentDetail   = null; //当月明细
+    private JLabel       jlFileOrgForProject              = null;
+    private JLabel       jlFileOrgForProjectItem          = null;
     private JLabel       jlFileDes                        = null;
     // button
     private JButton      jbToProcess                      = null;
@@ -45,18 +49,24 @@ public class UI {
     private JButton      jbOpenOrgForTotalAccount         = null;
     private JButton      jbOpenOrgForTotalCurrentAccount  = null;
     private JButton      jbOpenOrgForTotalCurrentDetail   = null;
+    private JButton      jbOpenOrgForProject              = null;
+    private JButton      jbOpenOrgForProjectItem          = null;
     private JButton      jbOpenDesc                       = null;
     // TextField
     private JTextField   jtfFileForTemplate               = null;
     private JTextField   jtfFileOrgForTotalAccount        = null;
     private JTextField   jtfFileOrgForCurrentAccount      = null;
     private JTextField   jtfFileOrgForCurrentDetail       = null;
+    private JTextField   jtfFileOrgForProject             = null;
+    private JTextField   jtfFileOrgForProjectItem         = null;
     private JTextField   jtfFileDes                       = null;
     //
     private JFileChooser jFileChooserForTemplate          = null;
     private JFileChooser jFileChooserOrgForTotalAccount   = null;
     private JFileChooser jFileChooserOrgForCurrentAccount = null;
     private JFileChooser jFileChooserOrgForCurrentDetail  = null;
+    private JFileChooser jFileChooserOrgForProject        = null;
+    private JFileChooser jFileChooserOrgForProjectItem    = null;
     private JFileChooser jFileChooserDes                  = null;
 
 
@@ -73,14 +83,18 @@ public class UI {
         jpurlOrgForTotalAccount = new JPanel();
         jpurlOrgForCurrentAccount = new JPanel();
         jpurlOrgForCurrentDetail = new JPanel();
+        jpurlOrgForProject = new JPanel();
+        jpurlOrgForProjectItem = new JPanel();
 
         jpurlDesc = new JPanel();
         jpcrotor = new JPanel();
 
-        jlFileForTemplate = new JLabel("模块文件");
-        jlFileOrgForTotalAccount = new JLabel("历史总账表");
-        jlFileOrgForTotalCurrentAccount = new JLabel("当月总账表");
-        jlFileOrgForTotalCurrentDetail = new JLabel("当月明细表");
+        jlFileForTemplate = new JLabel("模板文件");
+        jlFileOrgForTotalAccount = new JLabel("历史总账余额表");
+        jlFileOrgForTotalCurrentAccount = new JLabel("当月总账余额表");
+        jlFileOrgForTotalCurrentDetail = new JLabel("当月基础发生额");
+        jlFileOrgForProject = new JLabel("当月项目发生额");
+        jlFileOrgForProjectItem = new JLabel("当月项目明细");
 
         jlFileDes = new JLabel("请选择保存目录");
 
@@ -88,14 +102,18 @@ public class UI {
         jbOpenOrgForTotalAccount = new JButton("请选择");
         jbOpenOrgForTotalCurrentAccount = new JButton("请选择");
         jbOpenOrgForTotalCurrentDetail = new JButton("请选择");
-
+        jbOpenOrgForProject = new JButton("请选择");
+        jbOpenOrgForProjectItem = new JButton("请选择");
         jbOpenDesc = new JButton("请选择");
+
         jbToProcess = new JButton("运行");
 
-        jtfFileForTemplate = new JTextField("", 25);
-        jtfFileOrgForTotalAccount = new JTextField("", 25);
-        jtfFileOrgForCurrentAccount = new JTextField("", 25);
-        jtfFileOrgForCurrentDetail = new JTextField("", 25);
+        jtfFileForTemplate = new JTextField("D:\\MyFinancial", 25);
+        jtfFileOrgForTotalAccount = new JTextField("D:\\MyFinancial", 25);
+        jtfFileOrgForCurrentAccount = new JTextField("D:\\MyFinancial", 25);
+        jtfFileOrgForCurrentDetail = new JTextField("D:\\MyFinancial", 25);
+        jtfFileOrgForProject = new JTextField("D:\\MyFinancial", 25);
+        jtfFileOrgForProjectItem = new JTextField("D:\\MyFinancial", 25);
 
         jtfFileDes = new JTextField("", 25);
 
@@ -103,6 +121,8 @@ public class UI {
         jFileChooserOrgForTotalAccount = new JFileChooser();
         jFileChooserOrgForCurrentAccount = new JFileChooser();
         jFileChooserOrgForCurrentDetail = new JFileChooser();
+        jFileChooserOrgForProject = new JFileChooser();
+        jFileChooserOrgForProjectItem = new JFileChooser();
 
         jFileChooserDes = new JFileChooser();
 
@@ -128,16 +148,28 @@ public class UI {
         jpurlOrgForCurrentDetail.add(jtfFileOrgForCurrentDetail);
         jpurlOrgForCurrentDetail.add(jbOpenOrgForTotalCurrentDetail);
 
+        jpurlOrgForProject.setLayout(new FlowLayout());
+        jpurlOrgForProject.add(jlFileOrgForProject);
+        jpurlOrgForProject.add(jtfFileOrgForProject);
+        jpurlOrgForProject.add(jbOpenOrgForProject);
+
+        jpurlOrgForProjectItem.setLayout(new FlowLayout());
+        jpurlOrgForProjectItem.add(jlFileOrgForProjectItem);
+        jpurlOrgForProjectItem.add(jtfFileOrgForProjectItem);
+        jpurlOrgForProjectItem.add(jbOpenOrgForProjectItem);
+
         jpurlDesc.setLayout(new FlowLayout());
         jpurlDesc.add(jlFileDes);
         jpurlDesc.add(jtfFileDes);
         jpurlDesc.add(jbOpenDesc);
 
-        jpurl.setLayout(new GridLayout(5, 1));
+        jpurl.setLayout(new GridLayout(7, 1));
         jpurl.add(jpurlForTemplate);
         jpurl.add(jpurlOrgForTotalAccount);
         jpurl.add(jpurlOrgForCurrentAccount);
         jpurl.add(jpurlOrgForCurrentDetail);
+        jpurl.add(jpurlOrgForProject);
+        jpurl.add(jpurlOrgForProjectItem);
         jpurl.add(jpurlDesc);
 
         jpcrotor.setLayout(new FlowLayout());
@@ -204,6 +236,30 @@ public class UI {
             }
         });
 
+        jbOpenOrgForProject.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                int n = jFileChooserOrgForProject.showOpenDialog(null);
+                String filename = jFileChooserOrgForProject.getSelectedFile().toString();
+                if (n == JFileChooser.APPROVE_OPTION) {
+                    jtfFileOrgForProject.setText(filename);
+                    //fileFlag = new File(filename);
+                }
+            }
+        });
+
+        jbOpenOrgForProjectItem.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+
+                int n = jFileChooserOrgForProjectItem.showOpenDialog(null);
+                String filename = jFileChooserOrgForProjectItem.getSelectedFile().toString();
+                if (n == JFileChooser.APPROVE_OPTION) {
+                    jtfFileOrgForProjectItem.setText(filename);
+                    //fileFlag = new File(filename);
+                }
+            }
+        });
+
         jbOpenDesc.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
@@ -228,11 +284,15 @@ public class UI {
                 if (jtfFileForTemplate.getText().trim().equals("")) {
                     showMessage("请选择模块文件");
                 } else if (jtfFileOrgForTotalAccount.getText().trim().equals("")) {
-                    showMessage("请选择历史总账表");
+                    showMessage("请选择历史总账余额表");
                 } else if (jtfFileOrgForCurrentAccount.getText().trim().equals("")) {
-                    showMessage("请选择当期总账表");
+                    showMessage("请选择当月总账余额表");
                 } else if (jtfFileOrgForCurrentDetail.getText().trim().equals("")) {
-                    showMessage("请选择当期明细");
+                    showMessage("请选择当月基础发生额");
+                } else if (jtfFileOrgForProject.getText().trim().equals("")) {
+                    showMessage("请选择当月项目发生额");
+                } else if (jtfFileOrgForProjectItem.getText().trim().equals("")) {
+                    showMessage("请选择当月项目明细");
                 } else if (jtfFileDes.getText().trim().equals("")) {
                     showMessage("请选择输入目录");
                 } else {
@@ -240,10 +300,12 @@ public class UI {
                     String orgurlForTotalAccount = jtfFileOrgForTotalAccount.getText().trim();
                     String orgurlForCurrentAccount = jtfFileOrgForCurrentAccount.getText().trim();
                     String orgurlForCurrentDetail = jtfFileOrgForCurrentDetail.getText().trim();
+                    String orgurlForProject = jtfFileOrgForProject.getText().trim();
+                    String orgurlForProjectItem = jtfFileOrgForProjectItem.getText().trim();
                     String desurl = jtfFileDes.getText().trim();
                     String date =
                       desurl = desurl.replaceAll("00", Util.getDateString() + "02");
-                    main.ToOpen(template, orgurlForTotalAccount, orgurlForCurrentAccount, orgurlForCurrentDetail, desurl);
+                    main.ToOpen(template, orgurlForTotalAccount, orgurlForCurrentAccount, orgurlForCurrentDetail, orgurlForProject, orgurlForProjectItem, desurl);
                     showMessage("成功");
 
                 }
@@ -261,6 +323,7 @@ public class UI {
         System.exit(0);
 
     }
+
     // /home/caoyaojun/gitspace/test.excel/src/test/resources/template-new.xls
     // /home/caoyaojun/gitspace/test.excel/src/test/resources/10-accountitem.xls
     // /home/caoyaojun/gitspace/test.excel/src/test/resources/10-accountitem.xls

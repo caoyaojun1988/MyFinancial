@@ -1,14 +1,10 @@
 package com.cao.main;
 
 import com.cao.domain.AccountItem;
-import com.cao.domain.CurrentMonthDetail;
-import com.cao.input.CurrentMonthDetailInput;
+import com.cao.domain.ProjectItem;
+import com.cao.input.ProjectItemInput;
 import com.cao.input.TotalAcountInput;
-import com.cao.output.BalanceOutput;
-import com.cao.output.ShouZhiOutput;
-import com.cao.output.ZhiChuMingXiJinDuOutput;
-import com.cao.output.ZhiChuMingXiOutput;
-import com.sun.corba.se.spi.orbutil.fsm.Input;
+import com.cao.output.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 
 import java.io.File;
@@ -23,7 +19,7 @@ import java.util.Map;
  */
 public class Main {
 
-    public boolean ToOpen(String templateUrl, String orgurlForTotalAccount, String orgurlForCurrentAccount, String orgurlForCurrentDetail, String desurl) {
+    public boolean ToOpen(String templateUrl, String orgurlForTotalAccount, String orgurlForCurrentAccount, String orgurlForCurrentDetail, String orgurlForProject, String orgurlForProjectDetail, String desurl) {
         try {
 
             // 历史总账表
@@ -89,18 +85,34 @@ public class Main {
                     default:
                 }
             }
-
-            //当期明细
-            CurrentMonthDetailInput currentMonthDetail = new CurrentMonthDetailInput();
-            currentMonthDetail.setOrgurl(orgurlForCurrentDetail);
-            List<CurrentMonthDetail> currentMonthDetails = currentMonthDetail.importExcel();
-            Map<String, CurrentMonthDetail> map = new HashMap<String, CurrentMonthDetail>();
-            for (CurrentMonthDetail monthDetail : currentMonthDetails) {
-                map.put(monthDetail.getName(), monthDetail);
+            // 当期项目
+            TotalAcountInput currentMonthProject = new TotalAcountInput();
+            currentMonthProject.setOrgurl(orgurlForProject);
+            List<AccountItem> currentMonthProjects = currentMonthProject.importExcel();
+            Map<String, AccountItem> currentMonthProjectMap = new HashMap<String, AccountItem>();
+            for (AccountItem monthDetail : currentMonthProjects) {
+                currentMonthProjectMap.put(monthDetail.getName(), monthDetail);
             }
 
-            HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(templateUrl)); // 读取文件流
+            //当期基础明细
+            TotalAcountInput currentMonthDetail = new TotalAcountInput();
+            currentMonthDetail.setOrgurl(orgurlForCurrentDetail);
+            List<AccountItem> currentMonthDetails = currentMonthDetail.importExcel();
+            Map<String, AccountItem> map = new HashMap<String, AccountItem>();
+            for (AccountItem monthDetail : currentMonthDetails) {
+                map.put(monthDetail.getName(), monthDetail);
+            }
+            // 当前项目明显
+            ProjectItemInput projectItemInput = new ProjectItemInput();
+            projectItemInput.setOrgurl(orgurlForProjectDetail);
+            ProjectItem projectItem = projectItemInput.importExcel();
+            Map<String, Double> projectMap = new HashMap<String, Double>();
+            projectMap.put("文物采集及管理专项经费", projectItem.getCaiJi());
+            projectMap.put("年度基本陈列和临时展览专项经费", projectItem.getChenLie());
+            projectMap.put("财税文化文物研究和宣传", projectItem.getYanJiu());
 
+            HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(templateUrl)); // 读取文件流
+            //1
             BalanceOutput balanceOutput = new BalanceOutput();
             balanceOutput.setValues1(totalAccountItemMap1);
             balanceOutput.setValues2(totalAccountItemMap2);
@@ -108,7 +120,7 @@ public class Main {
             balanceOutput.setValues4(totalAccountItemMap4);
             balanceOutput.setValues5(totalAccountItemMap5);
             workbook = balanceOutput.CreateExcel(workbook);
-
+            //2
             ShouZhiOutput shouZhiOutput = new ShouZhiOutput();
             shouZhiOutput.setCurrentValues1(currentAccountItemMap1);
             shouZhiOutput.setCurrentValues2(currentAccountItemMap2);
@@ -123,14 +135,21 @@ public class Main {
             shouZhiOutput.setValues5(totalAccountItemMap5);
 
             workbook = shouZhiOutput.CreateExcel(workbook);
-
+            //3
             ZhiChuMingXiOutput zhiChuMingXiOutput = new ZhiChuMingXiOutput();
-            zhiChuMingXiOutput.setValues(map);
+            zhiChuMingXiOutput.setBaseValues(map);
+            zhiChuMingXiOutput.setProjectValues(currentMonthProjectMap);
             workbook = zhiChuMingXiOutput.CreateExcel(workbook);
 
-            //当期明细进度
+            //4
+            ZhiChuJinDuOutput zhiChuJinDuOutput = new ZhiChuJinDuOutput();
+            zhiChuJinDuOutput.setValues(projectMap);
+            workbook = zhiChuJinDuOutput.CreateExcel(workbook);
+
+            //5 当期明细进度
             ZhiChuMingXiJinDuOutput zhiChuMingXiJinDuOutput = new ZhiChuMingXiJinDuOutput();
-            zhiChuMingXiJinDuOutput.setValues(map);
+            zhiChuMingXiJinDuOutput.setBaseValues(map);
+            zhiChuMingXiJinDuOutput.setProjectValues(currentMonthProjectMap);
             workbook = zhiChuMingXiJinDuOutput.CreateExcel(workbook);
 
             FileOutputStream fileOutputStream = new FileOutputStream(new File(desurl));
@@ -143,5 +162,17 @@ public class Main {
             UI.showMessage(e.getMessage());
             return false;
         }
+    }
+
+
+    public static void main(String[] ar) {
+        String templateUrl = "/home/caoyaojun/xpshare/test/template-new.xls";
+        String orgurlForTotalAccount = "/home/caoyaojun/xpshare/test/quannianzongzhang.xls";
+        String orgurlForCurrentAccount = "/home/caoyaojun/xpshare/test/10-zongzhang.xls";
+        String orgurlForCurrentDetail = "/home/caoyaojun/xpshare/test/10-jiben.xls";
+        String orgurlForProject = "/home/caoyaojun/xpshare/test/10-xiangmu.xls";
+        String orgurlForProjectDetail = "/home/caoyaojun/xpshare/test/10-xiangmmingxi.xls";
+        String desurl = "/home/caoyaojun/xpshare/test/teest.xls";
+        new Main().ToOpen(templateUrl, orgurlForTotalAccount, orgurlForCurrentAccount, orgurlForCurrentDetail, orgurlForProject, orgurlForProjectDetail,desurl);
     }
 }

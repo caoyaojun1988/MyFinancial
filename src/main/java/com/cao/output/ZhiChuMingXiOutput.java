@@ -1,6 +1,8 @@
 package com.cao.output;
 
-import com.cao.domain.CurrentMonthDetail;
+import com.cao.domain.AccountItem;
+import com.cao.domain.ProjectItem;
+import com.cao.input.TotalAcountInput;
 import com.cao.main.UI;
 import com.cao.util.ExcelUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -21,7 +23,8 @@ import java.util.Map;
 public class ZhiChuMingXiOutput extends AbstractOutput {
 
     private static final String exclued = "减：";
-    private Map<String, CurrentMonthDetail> values;
+    private Map<String, AccountItem> baseValues;
+    private Map<String, AccountItem> projectValues;
 
     public ZhiChuMingXiOutput() {
         super();
@@ -53,20 +56,25 @@ public class ZhiChuMingXiOutput extends AbstractOutput {
                     }
 
                     try {
-                        HSSFCell cell1 = row.getCell(1);
+                        HSSFCell cell1 = row.getCell(0);
                         String cell1Value = ExcelUtil.getString(cell1);
                         if (StringUtils.isNotBlank(cell1Value)) {
+                            if(cell1Value.contains(TotalAcountInput.other)){
+                                String replaceAll = cell1Value.replaceAll("\\d+", "");
+                                cell1.setCellValue(replaceAll);
+                            }
 
-                            HSSFCell cell2 = row.getCell(2);
-                            setCellValue(cell1Value, cell2);
+                            HSSFCell cell2 = row.getCell(1);
+                            setCellValue(getBaseValues(), cell1Value, cell2);
 
-                            HSSFCell cell3 = row.getCell(3);
-                            setCellValue(cell1Value, cell3);
+                            HSSFCell cell3 = row.getCell(2);
+                            setCellValue(getProjectValues(), cell1Value, cell3);
 
-                            HSSFCell cell4 = row.getCell(4);
-                            setCellValue(cell1Value, cell4);
-                            HSSFCell cell5 = row.getCell(5);
-                            setCellValue(cell1Value, cell5);
+                            HSSFCell cell4 = row.getCell(3);
+                            setCellValue(getBaseValues(), cell1Value, cell4);
+
+                            HSSFCell cell5 = row.getCell(4);
+                            setCellValue(getProjectValues(), cell1Value, cell5);
                         }
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -83,19 +91,22 @@ public class ZhiChuMingXiOutput extends AbstractOutput {
         return workbook;
     }
 
-    protected void setCellValue(String cell0Value, HSSFCell cell1) {
+    protected void setCellValue(Map<String, AccountItem> srcValue, String cell0Value, HSSFCell cell1) {
         if (cell1 != null) {
             String mapper = ExcelUtil.getString(cell1);
             if (StringUtils.isNotBlank(mapper) && NumberUtils.isNumber(mapper)) {
                 int index = Double.valueOf(mapper).intValue();
-
-                String replaceAll = cell0Value.replaceAll("\\(?\\（?\\d*\\)?\\）?", "");
-                String replace = StringUtils.replace(replaceAll, "、", "");
-                String value = StringUtils.replace(replace, " ", "");
-
-                CurrentMonthDetail currentMonthDetail = getValues().get(value);
-                if (currentMonthDetail != null && currentMonthDetail.getValueById(index) != null && currentMonthDetail.getValueById(index) != 0) {
-                    cell1.setCellValue(processValue(currentMonthDetail.getValueById(index)));
+                AccountItem accountItem;
+                if(!cell0Value.contains(TotalAcountInput.other)){
+                    String replaceAll = cell0Value.replaceAll("\\(?\\（?\\d+\\)?\\）?", "");
+                    String replace = StringUtils.replace(replaceAll, "、", "");
+                    String value = StringUtils.replace(replace, " ", "");
+                      accountItem = srcValue.get(value);
+                }else {
+                      accountItem = srcValue.get(cell0Value);
+                }
+                if (accountItem != null && accountItem.getValueById(index) != null && accountItem.getValueById(index) != 0) {
+                    cell1.setCellValue(processValue(accountItem.getValueById(index)));
                     return;
                 }
                 cell1.setCellValue("");
@@ -104,12 +115,19 @@ public class ZhiChuMingXiOutput extends AbstractOutput {
     }
 
 
-    public Map<String, CurrentMonthDetail> getValues() {
-        return values;
+    public Map<String, AccountItem> getBaseValues() {
+        return baseValues;
     }
 
-    public void setValues(Map<String, CurrentMonthDetail> values) {
-        this.values = values;
+    public void setBaseValues(Map<String, AccountItem> baseValues) {
+        this.baseValues = baseValues;
     }
 
+    public Map<String, AccountItem> getProjectValues() {
+        return projectValues;
+    }
+
+    public void setProjectValues(Map<String, AccountItem> projectValues) {
+        this.projectValues = projectValues;
+    }
 }

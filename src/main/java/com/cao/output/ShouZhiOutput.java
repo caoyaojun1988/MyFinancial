@@ -113,7 +113,7 @@ public class ShouZhiOutput extends AbstractOutput {
                 values = this.currentValues3;
                 break;
             case 4:
-                values = this.currentValues3;
+                values = this.currentValues4;
                 break;
             case 5:
                 values = this.currentValues5;
