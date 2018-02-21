@@ -59,7 +59,7 @@ public class ZhiChuMingXiOutput extends AbstractOutput {
                         HSSFCell cell1 = row.getCell(0);
                         String cell1Value = ExcelUtil.getString(cell1);
                         if (StringUtils.isNotBlank(cell1Value)) {
-                            if(cell1Value.contains(TotalAcountInput.other)){
+                            if(cell1Value.equals(TotalAcountInput.other)){
                                 String replaceAll = cell1Value.replaceAll("\\d+", "");
                                 cell1.setCellValue(replaceAll);
                             }
@@ -97,7 +97,7 @@ public class ZhiChuMingXiOutput extends AbstractOutput {
             if (StringUtils.isNotBlank(mapper) && NumberUtils.isNumber(mapper)) {
                 int index = Double.valueOf(mapper).intValue();
                 AccountItem accountItem;
-                if(!cell0Value.contains(TotalAcountInput.other)){
+                if(!cell0Value.equals(TotalAcountInput.other)){
                     String replaceAll = cell0Value.replaceAll("\\(?\\（?\\d+\\)?\\）?", "");
                     String replace = StringUtils.replace(replaceAll, "、", "");
                     String value = StringUtils.replace(replace, " ", "");

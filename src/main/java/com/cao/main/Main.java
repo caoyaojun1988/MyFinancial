@@ -166,13 +166,13 @@ public class Main {
 
 
     public static void main(String[] ar) {
-        String templateUrl = "/home/caoyaojun/xpshare/test/template-new.xls";
-        String orgurlForTotalAccount = "/home/caoyaojun/xpshare/test/quannianzongzhang.xls";
-        String orgurlForCurrentAccount = "/home/caoyaojun/xpshare/test/10-zongzhang.xls";
-        String orgurlForCurrentDetail = "/home/caoyaojun/xpshare/test/10-jiben.xls";
-        String orgurlForProject = "/home/caoyaojun/xpshare/test/10-xiangmu.xls";
-        String orgurlForProjectDetail = "/home/caoyaojun/xpshare/test/10-xiangmmingxi.xls";
-        String desurl = "/home/caoyaojun/xpshare/test/teest.xls";
+        String templateUrl = "/Users/caoyaojun/Documents/lxy/template-new.xls";
+        String orgurlForTotalAccount = "/Users/caoyaojun/Documents/lxy/dnzz.xls";
+        String orgurlForCurrentAccount = "/Users/caoyaojun/Documents/lxy/dyzz.xls";
+        String orgurlForCurrentDetail = "/Users/caoyaojun/Documents/lxy/dyjb.xls";
+        String orgurlForProject = "/Users/caoyaojun/Documents/lxy/dyxm.xls";
+        String orgurlForProjectDetail = "/Users/caoyaojun/Documents/lxy/xmmx.xls";
+        String desurl = "/Users/caoyaojun/Documents/lxy/teest.xls";
         new Main().ToOpen(templateUrl, orgurlForTotalAccount, orgurlForCurrentAccount, orgurlForCurrentDetail, orgurlForProject, orgurlForProjectDetail,desurl);
     }
 }
